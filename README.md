@@ -1,3 +1,7 @@
+# Dev Branch
+
+If you see this in the README.md you are on the right branch to work on!
+
 # WasedaTime_mobile
 
 [WasedaTime](https://wasedatime.com) (stands for Waseda Timetable) is a non-profit & student-run open source web app for syllabus searching, course reviews and bus schedule checking at Waseda University.
