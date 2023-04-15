@@ -25,6 +25,10 @@ You can view the repository [here](https://github.com/wasedatime/wasedatime-web)
 - Campus
   - [React Bootstrap](https://react-bootstrap.github.io) - Official React integration for Bootstrap, a frequently updated development framework that helps create layouts with prebuilt components easily.
 
+**Frontend (Mobile App)**
+
+Flutter! We are just started!
+
 # Prerequisites
 
 Before you get started, make sure you have the following software installed on your system:
@@ -67,7 +71,7 @@ git clone git@github.com:wasedatime/wasedatime-mobile.git
 Then move into the cloned repository:
 
 ```
-cd wasedatime-web
+cd wasedatime-mobile
 ```
 
 Run `git status` or `git branch` to confirm that you are on `master` branch
@@ -163,10 +167,6 @@ _Code editor like VScode has functionality for you to do the above steps without
    ```
    git branch -D feature/{name-of-your-finished-feature}
    ```
-
-## Create a new app (micro-app) in WasedaTime
-
-_This section is being moved to internal documentation since it is an instruction for creating new & big features, which would be leave to our team members._
 
 # License
 
