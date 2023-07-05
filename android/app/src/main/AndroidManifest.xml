@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.wasedatime_mobile">
+    package="com.example.wasedatime">
    <application
-        android:label="wasedatime_mobile"
+        android:label="wasedatime"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
