@@ -1,4 +1,4 @@
-package com.example.wasedatime_mobile
+package com.example.wasedatime
 
 import io.flutter.embedding.android.FlutterActivity
 

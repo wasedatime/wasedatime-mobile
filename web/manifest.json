@@ -1,6 +1,6 @@
 {
-    "name": "wasedatime_mobile",
-    "short_name": "wasedatime_mobile",
+    "name": "wasedatime",
+    "short_name": "wasedatime",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
