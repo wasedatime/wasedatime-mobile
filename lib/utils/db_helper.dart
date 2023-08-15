@@ -134,9 +134,9 @@ class DatabaseHelper {
       }
     }
     print(day);
-    // for (int i = 0; i < 7; i++) {
-    //   print(courses[i]);
-    // }
+    for (int i = 0; i < 7; i++) {
+      print(courses[i]);
+    }
     return courses;
   }
 }

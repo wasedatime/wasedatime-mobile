@@ -22,8 +22,10 @@ class _DailyScreenState extends State<DailyScreen> {
   @override
   void initState() {
     super.initState();
+    // coursesFuture =
+    //     DatabaseHelper.instance.getCoursesForDay(DateTime.now().weekday);
     coursesFuture =
-        DatabaseHelper.instance.getCoursesForDay(DateTime.now().weekday);
+        DatabaseHelper.instance.getCoursesForDay(DateTime.wednesday);
     _fetchCourses();
   }
 

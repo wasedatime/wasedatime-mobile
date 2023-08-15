@@ -45,7 +45,7 @@ class _WeeklyTableState extends State<WeeklyTable> {
 
     const List days = ["Mon", "Tue", "Wed", "Thu", "Fri"];
     final viewheight = MediaQuery.of(context).size.height;
-    final viewwidth = MediaQuery.of(context).size.width;
+    // final viewwidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
         backgroundColor: const Color(0xFFEFEFEF),
