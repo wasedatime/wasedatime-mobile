@@ -162,11 +162,12 @@ class _WeeklyTableState extends State<WeeklyTable> {
                                       alignment: Alignment.center,
                                       height: viewheight * 0.14,
                                       decoration: BoxDecoration(
-                                        color:
-                                            courses?[period]?[day]?.courseID ==
-                                                    null
-                                                ? Colors.grey[100]
-                                                : generateColor(),
+                                        color: courses?[period]?[day]
+                                                    ?.courseID ==
+                                                null
+                                            ? Colors.grey[100]
+                                            : mycolors[courses![period]![day]!
+                                                .prefColor!],
                                         borderRadius: BorderRadius.circular(20),
                                       ),
                                       child: courses?[period]?[day]?.courseID ==
