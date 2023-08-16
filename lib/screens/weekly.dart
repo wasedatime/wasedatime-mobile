@@ -1,15 +1,46 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:math';
 
-class WeekScreen extends StatefulWidget {
-  const WeekScreen({super.key});
+import '../models/course.dart';
+import '../utils/db_helper.dart';
+
+class WeeklyTable extends StatefulWidget {
+  const WeeklyTable({super.key});
 
   @override
-  State<WeekScreen> createState() => _WeekScreenState();
+  State<WeeklyTable> createState() => _WeeklyTableState();
 }
 
-class _WeekScreenState extends State<WeekScreen> {
+class _WeeklyTableState extends State<WeeklyTable> {
+  late final Future<Map<int, Map<int, Course>>> coursesFuture;
+  Map<int, Map<int, Course>>? courses;
+
+  @override
+  void initState() {
+    super.initState();
+    coursesFuture = DatabaseHelper.instance.getCoursesForWeek();
+    print('courses future');
+    _fetchCourses();
+    // print(coursesFuture[2]);
+  }
+
+  void _fetchCourses() async {
+    try {
+      courses = await coursesFuture;
+      for (int i = 0; i < 6; i++) {
+        // print('$i , ${courses?[i]?[]}');
+      }
+    } catch (error) {
+      print("error");
+      // Handle error
+    }
+
+    setState(() {}); // Trigger a rebuild to update the screen
+  }
+
   @override
   Widget build(BuildContext context) {
     const String currentSemester = 'Spring';
@@ -43,9 +74,14 @@ class _WeekScreenState extends State<WeekScreen> {
       return mycolors[randomNumber];
     }
 
+    String getCourseLocation(Course? course) {
+      List<dynamic> occurrences = json.decode(course!.courseOccurrences!);
+      return occurrences[0]['l'];
+    }
+
     const List days = ["Mon", "Tue", "Wed", "Thu", "Fri"];
     final viewheight = MediaQuery.of(context).size.height;
-    final viewwidth = MediaQuery.of(context).size.width;
+    // final viewwidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
         backgroundColor: const Color(0xFFEFEFEF),
@@ -70,7 +106,7 @@ class _WeekScreenState extends State<WeekScreen> {
             ],
           ),
         ),
-        body: SizedBox(
+        body: Container(
           height: viewheight * 0.88,
           // color: Colors.amber,
           child: Column(
@@ -121,17 +157,43 @@ class _WeekScreenState extends State<WeekScreen> {
                                 ? TableCell(
                                     child: Container(
                                       margin: const EdgeInsets.symmetric(
-                                          horizontal: 2),
+                                          horizontal: 2, vertical: 0.5),
+                                      padding: EdgeInsets.all(10),
                                       alignment: Alignment.center,
                                       height: viewheight * 0.14,
                                       decoration: BoxDecoration(
-                                        color: generateColor(),
+                                        color: courses?[period]?[day]
+                                                    ?.courseID ==
+                                                null
+                                            ? Colors.grey[100]
+                                            : mycolors[courses![period]![day]!
+                                                .prefColor!],
                                         borderRadius: BorderRadius.circular(20),
                                       ),
-                                      child: Text(
-                                        'Day $day Period $period',
-                                        textAlign: TextAlign.center,
-                                      ),
+                                      child: courses?[period]?[day]?.courseID ==
+                                              null
+                                          ? const Text(" ")
+                                          : Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceEvenly,
+                                              children: [
+                                                Text(
+                                                  '${courses?[period]?[day]?.courseTitle}',
+                                                  textAlign: TextAlign.center,
+                                                  style: const TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 12),
+                                                ),
+                                                Text(
+                                                  getCourseLocation(
+                                                      courses?[period]?[day]),
+                                                  textAlign: TextAlign.center,
+                                                  style:
+                                                      TextStyle(fontSize: 12),
+                                                )
+                                              ],
+                                            ),
                                     ),
                                   )
                                 : TableCell(
@@ -158,12 +220,6 @@ class _WeekScreenState extends State<WeekScreen> {
                   ],
                 ),
               ),
-              // Container(
-              //   color: Colors.blue,
-              //   child: SizedBox(
-              //     height: MediaQuery.of(context).size.height * 0.11,
-              //   ),
-              // )
             ],
           ),
         ));

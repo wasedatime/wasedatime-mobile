@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wasedatime/screens/daily.dart';
 import 'package:wasedatime/screens/syllabus.dart';
 import 'package:wasedatime/screens/options.dart';
-import 'package:wasedatime/screens/weeklytable.dart';
+import 'package:wasedatime/screens/weekly.dart';
 
 class BottomNav extends StatefulWidget {
   const BottomNav({Key? key}) : super(key: key);

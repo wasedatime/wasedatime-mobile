@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
@@ -160,7 +161,7 @@ class DatabaseHelper {
       List<dynamic> occurrences = json.decode(courseData['courseOccurrences']);
 
       for (Map<String, dynamic> occurrence in occurrences) {
-        print(occurrence);
+        // debugPrint("$occurrence");
         Course course = Course.fromDatabaseRecord(courseData);
         week[occurrence['p']]![occurrence['d'] + 1] = course;
       }
