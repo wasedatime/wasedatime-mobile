@@ -122,7 +122,7 @@ class DatabaseHelper {
     for (Map<String, dynamic> courseData in courseDataList) {
       List<dynamic> occurrences = json.decode(courseData['courseOccurrences']);
       for (Map<String, dynamic> occurrence in occurrences) {
-        //print('${occurrence['d']} == $day');
+        print('${occurrence['d']} == $day');
         if (occurrence['d'] == day) {
           int position =
               occurrence['p'] - 1; // Adjust position to 0-based index
@@ -138,5 +138,40 @@ class DatabaseHelper {
       print(courses[i]);
     }
     return courses;
+  }
+
+  Future<Map<int, Map<int, Course>>> getCoursesForWeek() async {
+    final Database db = await initDatabase();
+    final List<Map<String, dynamic>> courseDataList = await db.query(
+      'addedCourses',
+    );
+    // print('courseDataList: $courseDataList');
+    Map<int, Map<int, Course>> week = {};
+
+    for (int prd = 1; prd <= 5; prd++) {
+      Map<int, Course> eachDayForPeriod = {};
+      for (int day = 2; day <= 6; day++) {
+        eachDayForPeriod[day] = Course();
+      }
+      week[prd] = eachDayForPeriod;
+    }
+
+    for (Map<String, dynamic> courseData in courseDataList) {
+      List<dynamic> occurrences = json.decode(courseData['courseOccurrences']);
+
+      for (Map<String, dynamic> occurrence in occurrences) {
+        print(occurrence);
+        Course course = Course.fromDatabaseRecord(courseData);
+        week[occurrence['p']]![occurrence['d'] + 1] = course;
+      }
+    }
+
+    // for (var outerKey in week.keys) {
+    //   for (var innerKey in week[outerKey]!.keys) {
+    //     var course = week[outerKey]![innerKey]!;
+    //     print(course);
+    //   }
+    // }
+    return week;
   }
 }

@@ -14,7 +14,7 @@ class CourseCard extends StatelessWidget {
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(20))),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+        padding: const EdgeInsets.only(top: 10, left: 25, right: 25),
         alignment: Alignment.center,
         width: double.infinity,
         child: Column(
@@ -46,6 +46,7 @@ class CourseCard extends StatelessWidget {
               children: [
                 const Expanded(
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Row(
@@ -63,6 +64,7 @@ class CourseCard extends StatelessWidget {
                             width: 10,
                           ),
                           Icon(
+                            size: 25,
                             Icons.pin_drop_rounded,
                             color: Colors.grey,
                           ),
@@ -100,24 +102,28 @@ class CourseCard extends StatelessWidget {
                 )
               ],
             ),
-            const Divider(
-              color: Colors.grey,
-              thickness: 1,
+            Container(
+              margin: EdgeInsets.only(top: 10),
+              height: 2,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                  color: Colors.grey, borderRadius: BorderRadius.circular(30)),
             ),
             Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 IconButton(
                     onPressed: () {},
-                    iconSize: 30,
-                    icon: Icon(
+                    iconSize: 25,
+                    icon: const Icon(
                       Icons.ios_share,
                       color: Colors.blue,
                     )),
                 IconButton(
                     onPressed: () {},
-                    iconSize: 28,
-                    icon: Icon(
+                    iconSize: 23,
+                    icon: const Icon(
                       Icons.chat_bubble,
                       color: Colors.amber,
                     ))
