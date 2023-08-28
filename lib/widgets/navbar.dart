@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:wasedatime/screens/weekly.dart';
 import 'package:wasedatime/screens/daily.dart';
 import 'package:wasedatime/screens/syllabus.dart';
 import 'package:wasedatime/screens/options.dart';
-import 'package:wasedatime/screens/weekly.dart';
 
 class BottomNav extends StatefulWidget {
   const BottomNav({Key? key}) : super(key: key);
@@ -14,7 +14,7 @@ class BottomNav extends StatefulWidget {
 class _BottomNavState extends State<BottomNav> {
   final List<Widget> _screens = [
     const SyllabusScreen(),
-    const WeeklyTable(),
+    const WeekScreen(),
     const OptionsScreen(),
     const DailyScreen(),
   ];

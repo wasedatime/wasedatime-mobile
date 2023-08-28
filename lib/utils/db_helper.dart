@@ -1,10 +1,12 @@
 import 'dart:convert';
-import 'package:flutter/material.dart';
+import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/services.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
+import 'package:wasedatime/models/class_times.dart';
 
 import 'package:wasedatime/models/course.dart';
+import 'package:wasedatime/models/cache_course.dart';
 
 class DatabaseHelper {
   static final DatabaseHelper instance = DatabaseHelper._privateConstructor();
@@ -22,9 +24,9 @@ class DatabaseHelper {
     String path = join(await getDatabasesPath(), 'wasedatime.db');
 
     // Delete the existing database file
-    await deleteDatabase(path);
+    //await deleteDatabase(path);
 
-    print(path);
+    safePrint(path);
 
     ByteData jsonData = await rootBundle.load('assets/courses.json');
     String jsonString = utf8.decode(jsonData.buffer.asUint8List());
@@ -58,6 +60,29 @@ class DatabaseHelper {
           courseSubtitle TEXT,
           courseCategoryName TEXT,
           courseModality TEXT,
+          courseSchool TEXT
+        )
+      ''');
+      await db.execute('''
+        CREATE TABLE IF NOT EXISTS cachedCourses (
+          courseID TEXT PRIMARY KEY,
+          courseTitle TEXT,
+          courseTitleJP TEXT,
+          courseInstructor TEXT,
+          courseInstructorJP TEXT,
+          courseLanguage TEXT,
+          courseType INTEGER,
+          courseTerm TEXT,
+          courseOccurrences TEXT,
+          courseMinYear INTEGER,
+          courseCategory TEXT,
+          courseCredit INTEGER,
+          courseLevel INTEGER,
+          courseEvaluation TEXT,
+          courseCode TEXT,
+          courseSubtitle TEXT,
+          courseCategoryName TEXT,
+          courseModality INTEGER,
           courseSchool TEXT
         )
       ''');
@@ -105,43 +130,41 @@ class DatabaseHelper {
     return database;
   }
 
-  Future<Map<int, Course>> getCoursesForDay(int day) async {
+  Future<Map<int, List<Course>>> getCoursesForDay(
+    int day,
+  ) async {
     final Database db = await initDatabase();
-    final List<Map<String, dynamic>> courseDataList = await db.query(
-      'addedCourses',
+    final List<String> term = ClassTimes.currentTerm;
+    final List<Map<String, dynamic>> courseDataList = await db.rawQuery(
+      'SELECT * FROM addedCourses WHERE courseTerm = "${term[0]}" OR courseTerm = "${term[1]}" ORDER BY courseTitle',
     );
 
-    //print('courseDataList: $courseDataList');
-
-    Map<int, Course> courses = {};
+    Map<int, List<Course>> courses = {};
 
     // Create blank objects for all slots initially
     for (int i = 0; i < 7; i++) {
-      courses[i] = Course();
+      courses[i] = [];
     }
 
     for (Map<String, dynamic> courseData in courseDataList) {
       List<dynamic> occurrences = json.decode(courseData['courseOccurrences']);
       for (Map<String, dynamic> occurrence in occurrences) {
-        print('${occurrence['d']} == $day');
         if (occurrence['d'] == day) {
           int position =
               occurrence['p'] - 1; // Adjust position to 0-based index
 
           Course course = Course.fromDatabaseRecord(courseData);
 
-          courses[position] = course;
+          courses[position]?.add(course);
         }
       }
     }
-    print(day);
-    for (int i = 0; i < 7; i++) {
-      print(courses[i]);
-    }
+    safePrint(day);
     return courses;
   }
 
-  Future<Map<int, Map<int, Course>>> getCoursesForWeek() async {
+  Future<Map<int, Map<int, Course>>> getCoursesForWeek(
+      List<String> term) async {
     final Database db = await initDatabase();
     final List<Map<String, dynamic>> courseDataList = await db.query(
       'addedCourses',
@@ -161,18 +184,110 @@ class DatabaseHelper {
       List<dynamic> occurrences = json.decode(courseData['courseOccurrences']);
 
       for (Map<String, dynamic> occurrence in occurrences) {
-        // debugPrint("$occurrence");
+        // safePrint(occurrence);
         Course course = Course.fromDatabaseRecord(courseData);
-        week[occurrence['p']]![occurrence['d'] + 1] = course;
+        safePrint("${course.courseTitle}, ${course.courseTerm}");
+
+        if (course.courseTerm == term[0] ||
+            course.courseTerm == term[1] ||
+            course.courseTerm == term[2]) {
+          week[occurrence['p']]![occurrence['d'] + 1] = course;
+        }
+        if (course.courseTerm == term[0] ||
+            course.courseTerm == term[1] ||
+            course.courseTerm == term[2]) {
+          week[occurrence['p']]![occurrence['d'] + 1] = course;
+        }
       }
     }
-
-    // for (var outerKey in week.keys) {
-    //   for (var innerKey in week[outerKey]!.keys) {
-    //     var course = week[outerKey]![innerKey]!;
-    //     print(course);
-    //   }
-    // }
     return week;
+  }
+
+  void cacheCourses(courseList, String school) async {
+    final Database db = await initDatabase();
+
+    for (final courseMap in courseList) {
+      //safePrint(courseMap['i']);
+      final course = CacheCourse.fromMap(courseMap, school);
+      //safePrint(course.toString());
+      await db.insert('cachedCourses', course.toMap(),
+          conflictAlgorithm: ConflictAlgorithm.replace);
+    }
+  }
+
+  Future<void> clearCache() async {
+    final db = await initDatabase();
+
+    // Drop the table if it exists
+    await db.execute('DROP TABLE IF EXISTS cachedCourses');
+
+    // Create the table with the desired schema
+    await db.execute('''
+        CREATE TABLE IF NOT EXISTS cachedCourses (
+          courseID TEXT PRIMARY KEY,
+          courseTitle TEXT,
+          courseTitleJP TEXT,
+          courseInstructor TEXT,
+          courseInstructorJP TEXT,
+          courseLanguage TEXT,
+          courseType INTEGER,
+          courseTerm TEXT,
+          courseOccurrences TEXT,
+          courseMinYear INTEGER,
+          courseCategory TEXT,
+          courseCredit INTEGER,
+          courseLevel INTEGER,
+          courseEvaluation TEXT,
+          courseCode TEXT,
+          courseSubtitle TEXT,
+          courseCategoryName TEXT,
+          courseModality INTEGER,
+          courseSchool TEXT
+        )
+      ''');
+  }
+
+  Future<List<CacheCourse>> getCachedCourses(
+      {int? offset, int? limit, String? searchQuery}) async {
+    final Database db = await initDatabase();
+
+    // Define the query
+    final String query = searchQuery != null && searchQuery.isNotEmpty
+        ? "SELECT * FROM cachedCourses WHERE courseTitle LIKE '%$searchQuery%' LIMIT $limit OFFSET $offset"
+        : "SELECT * FROM cachedCourses LIMIT $limit OFFSET $offset";
+
+    final List<Map<String, dynamic>> courseDataList = await db.rawQuery(query);
+
+    final List<CacheCourse> cachedCourses = courseDataList.map((courseData) {
+      return CacheCourse.fromDatabaseRecord(courseData);
+    }).toList();
+
+    return cachedCourses;
+  }
+
+  Future<void> addCourse(Course course) async {
+    final Database db = await DatabaseHelper.instance.database;
+
+    await db.insert('addedCourses', course.toMap(),
+        conflictAlgorithm: ConflictAlgorithm.replace);
+  }
+
+  Future<bool> isCourseIdExists(String courseId) async {
+    final db = await DatabaseHelper.instance.database;
+    final count = Sqflite.firstIntValue(await db.rawQuery(
+          'SELECT COUNT(*) FROM addedCourses WHERE courseID = ?',
+          [courseId],
+        )) ??
+        0;
+    return count > 0;
+  }
+
+  Future<void> removeCourse(String courseID) async {
+    final db = await instance.database;
+    await db.delete(
+      'addedCourses',
+      where: 'courseID = ?',
+      whereArgs: [courseID],
+    );
   }
 }

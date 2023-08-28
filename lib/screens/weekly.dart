@@ -1,50 +1,91 @@
 import 'dart:convert';
 
+import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'dart:math';
+
+import 'package:wasedatime/widgets/weekly/display_periodcell.dart';
+import 'package:wasedatime/widgets/weekly/display_timingcells.dart';
 
 import '../models/course.dart';
 import '../utils/db_helper.dart';
 
-class WeeklyTable extends StatefulWidget {
-  const WeeklyTable({super.key});
+class WeekScreen extends StatefulWidget {
+  const WeekScreen({super.key});
 
   @override
-  State<WeeklyTable> createState() => _WeeklyTableState();
+  State<WeekScreen> createState() => _WeekScreenState();
 }
 
-class _WeeklyTableState extends State<WeeklyTable> {
-  late final Future<Map<int, Map<int, Course>>> coursesFuture;
-  Map<int, Map<int, Course>>? courses;
+class _WeekScreenState extends State<WeekScreen> {
+  // late final Future<Map<int, Map<int, Course>>> coursesFuture;
+  // Map<int, Map<int, Course>>? courses;
+  late final Future<Map<int, Map<int, Course>>> springCoursesFuture;
+  Map<int, Map<int, Course>>? springCourses;
+  late final Future<Map<int, Map<int, Course>>> fallCoursesFuture;
+  Map<int, Map<int, Course>>? fallCourses;
+
+  List<String> springTerms = ['0s', '0q', '1q'];
+  List<String> fallTerms = ['2s', '2q', '3q'];
+
+  late String currentSemester;
+
+  void setCurrentSemester() {
+    if (currentSemester == 'Spring') {
+      currentSemester = 'Fall';
+      _fetchFallCourses();
+    } else {
+      currentSemester = 'Spring';
+      _fetchSpringCourses();
+    }
+    safePrint(currentSemester);
+    setState(() {});
+  }
+
+  void _fetchSpringCourses() async {
+    springCourses = await springCoursesFuture;
+    for (int period = 0; period < springCourses!.length; period++) {
+      for (int day = 2; day < 6; day++) {
+        safePrint(springCourses?[period]?[day]?.courseTitle);
+      }
+      safePrint("");
+    }
+
+    setState(() {});
+  }
+
+  void _fetchFallCourses() async {
+    fallCourses = await fallCoursesFuture;
+    for (int period = 0; period < fallCourses!.length; period++) {
+      for (int day = 2; day < 6; day++) {
+        safePrint(fallCourses?[period]?[day]?.courseTitle);
+      }
+      safePrint("");
+    }
+
+    setState(() {});
+  }
 
   @override
   void initState() {
     super.initState();
-    coursesFuture = DatabaseHelper.instance.getCoursesForWeek();
-    print('courses future');
-    _fetchCourses();
-    // print(coursesFuture[2]);
-  }
 
-  void _fetchCourses() async {
-    try {
-      courses = await coursesFuture;
-      for (int i = 0; i < 6; i++) {
-        // print('$i , ${courses?[i]?[]}');
-      }
-    } catch (error) {
-      print("error");
-      // Handle error
+    springCoursesFuture =
+        DatabaseHelper.instance.getCoursesForWeek(springTerms);
+    fallCoursesFuture = DatabaseHelper.instance.getCoursesForWeek(fallTerms);
+    safePrint('courses future');
+
+    if (DateTime.now().month >= 3 && DateTime.now().month <= 8) {
+      currentSemester = 'Spring';
+      _fetchSpringCourses();
+    } else {
+      currentSemester = 'Fall';
+      _fetchFallCourses();
     }
-
-    setState(() {}); // Trigger a rebuild to update the screen
   }
 
   @override
   Widget build(BuildContext context) {
-    const String currentSemester = 'Spring';
-    // const bool sixdays = false;
     const Map<int, List> timings = {
       1: ["8:50", "10:30"],
       2: ["10:40", "12:20"],
@@ -53,35 +94,13 @@ class _WeeklyTableState extends State<WeeklyTable> {
       5: ["17:00", "18:40"]
     };
 
-    List mycolors = [
-      Colors.amber[100],
-      Colors.pink[50],
-      Colors.pink[100],
-      Colors.orange[50],
-      Colors.orange[100],
-      Colors.blue[50],
-      Colors.blue[100],
-      Colors.lightBlue[100],
-      Colors.lightBlue[50],
-      Colors.deepPurple[100],
-      Colors.lightGreen[100],
-      Colors.green[50],
-    ];
-
-    Color generateColor() {
-      Random random = Random();
-      int randomNumber = random.nextInt(7);
-      return mycolors[randomNumber];
-    }
-
     String getCourseLocation(Course? course) {
       List<dynamic> occurrences = json.decode(course!.courseOccurrences!);
       return occurrences[0]['l'];
     }
 
     const List days = ["Mon", "Tue", "Wed", "Thu", "Fri"];
-    final viewheight = MediaQuery.of(context).size.height;
-    // final viewwidth = MediaQuery.of(context).size.width;
+    final size = MediaQuery.of(context).size;
 
     return Scaffold(
         backgroundColor: const Color(0xFFEFEFEF),
@@ -95,40 +114,78 @@ class _WeeklyTableState extends State<WeeklyTable> {
           foregroundColor: Colors.black,
           elevation: 0.0,
           centerTitle: true,
-          title: const Row(
+          title: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text("<"),
-              Spacer(),
-              Text("$currentSemester Semester"),
-              Spacer(),
-              Text(">")
+              currentSemester != 'Spring'
+                  ? IconButton(
+                      iconSize: size.width * 0.1,
+                      icon: const Icon(
+                        Icons.keyboard_double_arrow_left,
+                        color: Color(0xFFBF2D42),
+                      ),
+                      onPressed: () {
+                        setCurrentSemester();
+                      },
+                      splashColor: Colors.white,
+                    )
+                  : Icon(
+                      size: size.width * 0.1,
+                      Icons.keyboard_double_arrow_left,
+                      color: Colors.grey,
+                    ),
+              const Spacer(),
+              Text(
+                "$currentSemester Semester",
+                style: TextStyle(
+                  fontFamily: 'Inter',
+                  fontSize: size.width * 0.055,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const Spacer(),
+              currentSemester == 'Spring'
+                  ? IconButton(
+                      iconSize: size.width * 0.1,
+                      icon: const Icon(
+                        Icons.keyboard_double_arrow_right,
+                        color: Color(0xFFBF2D42),
+                      ),
+                      onPressed: () {
+                        setCurrentSemester();
+                      },
+                      splashColor: Colors.white,
+                    )
+                  : Icon(
+                      size: size.width * 0.1,
+                      Icons.keyboard_double_arrow_right,
+                      color: Colors.grey,
+                    ),
             ],
           ),
         ),
-        body: Container(
-          height: viewheight * 0.88,
-          // color: Colors.amber,
+        body: SizedBox(
+          height: size.height * 0.88,
           child: Column(
             children: [
               Expanded(
                 child: Table(
-                  columnWidths: const {
-                    0: FixedColumnWidth(40.0),
-                    1: FlexColumnWidth(),
-                    2: FlexColumnWidth(),
-                    3: FlexColumnWidth(),
-                    4: FlexColumnWidth(),
-                    5: FlexColumnWidth(),
+                  columnWidths: {
+                    0: FixedColumnWidth(size.width * 0.1),
+                    1: const FlexColumnWidth(),
+                    2: const FlexColumnWidth(),
+                    3: const FlexColumnWidth(),
+                    4: const FlexColumnWidth(),
+                    5: const FlexColumnWidth(),
                   },
                   defaultVerticalAlignment: TableCellVerticalAlignment.middle,
                   border: null,
                   children: <TableRow>[
                     TableRow(children: [
-                      const TableCell(
+                      TableCell(
                         child: Text(
                           "",
-                          style: TextStyle(fontSize: 20),
+                          style: TextStyle(fontSize: size.width * 0.01),
                         ),
                       ),
                       for (int i = 0; i <= 4; i++)
@@ -136,85 +193,38 @@ class _WeeklyTableState extends State<WeeklyTable> {
                           child: Center(
                               child: Text(
                             days[i],
-                            style: const TextStyle(fontSize: 20),
+                            style: TextStyle(
+                                fontSize: size.width * 0.045,
+                                fontFamily: 'Inter',
+                                color:
+                                    const Color.fromARGB(255, 127, 139, 156)),
                           )),
                         ),
                     ]),
                     TableRow(children: [
                       // Spacer row between day and table
                       for (int j = 1; j <= 6; j++)
-                        const TableCell(
+                        TableCell(
                             child: Text(
                           "",
-                          style: TextStyle(fontSize: 10),
+                          style: TextStyle(fontSize: size.width * 0.005),
                         ))
                     ]),
+                    // print time table
                     for (int period = 1; period <= 5; period++)
                       TableRow(
                         children: [
                           for (int day = 1; day <= 6; day++)
                             day != 1
-                                ? TableCell(
-                                    child: Container(
-                                      margin: const EdgeInsets.symmetric(
-                                          horizontal: 2, vertical: 0.5),
-                                      padding: EdgeInsets.all(10),
-                                      alignment: Alignment.center,
-                                      height: viewheight * 0.14,
-                                      decoration: BoxDecoration(
-                                        color: courses?[period]?[day]
-                                                    ?.courseID ==
-                                                null
-                                            ? Colors.grey[100]
-                                            : mycolors[courses![period]![day]!
-                                                .prefColor!],
-                                        borderRadius: BorderRadius.circular(20),
-                                      ),
-                                      child: courses?[period]?[day]?.courseID ==
-                                              null
-                                          ? const Text(" ")
-                                          : Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
-                                              children: [
-                                                Text(
-                                                  '${courses?[period]?[day]?.courseTitle}',
-                                                  textAlign: TextAlign.center,
-                                                  style: const TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 12),
-                                                ),
-                                                Text(
-                                                  getCourseLocation(
-                                                      courses?[period]?[day]),
-                                                  textAlign: TextAlign.center,
-                                                  style:
-                                                      TextStyle(fontSize: 12),
-                                                )
-                                              ],
-                                            ),
-                                    ),
-                                  )
-                                : TableCell(
-                                    child: SizedBox(
-                                    height: MediaQuery.of(context).size.height *
-                                        0.14,
-                                    width: 50,
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                          timings[period]?[0],
-                                          style: const TextStyle(fontSize: 12),
-                                        ),
-                                        const Spacer(),
-                                        Text(
-                                          timings[period]?[1],
-                                          style: const TextStyle(fontSize: 12),
-                                        )
-                                      ],
-                                    ),
-                                  )),
+                                ? PeriodCell(
+                                    courses: currentSemester == 'Spring'
+                                        ? springCourses
+                                        : fallCourses,
+                                    period: period,
+                                    day: day,
+                                    getCourseLocation: getCourseLocation,
+                                    size: size)
+                                : TimingCells(period: period, timings: timings),
                         ],
                       ),
                   ],

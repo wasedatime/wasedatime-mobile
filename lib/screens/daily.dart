@@ -14,18 +14,17 @@ class DailyScreen extends StatefulWidget {
 }
 
 class _DailyScreenState extends State<DailyScreen> {
-  late final Future<Map<int, Course>> coursesFuture;
-  Map<int, Course>? courses;
+  late final Future<Map<int, List<Course>>> coursesFuture;
+  Map<int, List<Course>>? courses;
   int numberOfClasses = 0;
   int nextClassPeriod = 0;
 
   @override
   void initState() {
     super.initState();
-    // coursesFuture =
-    //     DatabaseHelper.instance.getCoursesForDay(DateTime.now().weekday);
     coursesFuture =
-        DatabaseHelper.instance.getCoursesForDay(DateTime.wednesday);
+        //DatabaseHelper.instance.getCoursesForDay(DateTime.now().weekday);
+        DatabaseHelper.instance.getCoursesForDay(2);
     _fetchCourses();
   }
 
@@ -47,13 +46,12 @@ class _DailyScreenState extends State<DailyScreen> {
     final String greeting = _getGreeting(now);
     final String formattedDate = DateFormat('MMMM dd, yyyy').format(now);
 
-    final Size size = MediaQuery.of(context).size;
-
     return Scaffold(
       backgroundColor: const Color(0xFFEFEFEF),
       appBar: null,
       body: LayoutBuilder(
         builder: (context, constraints) {
+          final Size size = MediaQuery.of(context).size;
           return Column(
             children: [
               // Greeting and Date in the top row
@@ -71,16 +69,16 @@ class _DailyScreenState extends State<DailyScreen> {
                       children: [
                         Text(
                           greeting,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontFamily: 'Inter',
-                            fontSize: 25,
+                            fontSize: size.width * 0.06,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         Text(
                           formattedDate,
-                          style: const TextStyle(
-                            fontSize: 18,
+                          style: TextStyle(
+                            fontSize: size.width * 0.05,
                             fontFamily: 'Segoe UI',
                           ),
                         ),
@@ -108,7 +106,8 @@ class _DailyScreenState extends State<DailyScreen> {
                         child: Container(
                           decoration: BoxDecoration(
                             color: const Color(0xFFCCCCCC),
-                            borderRadius: BorderRadius.circular(10.0),
+                            borderRadius:
+                                BorderRadius.circular(size.width * 0.05),
                           ),
                           padding: EdgeInsets.all(size.width * 0.05),
                           child: Column(
@@ -118,46 +117,46 @@ class _DailyScreenState extends State<DailyScreen> {
                                 if (numberOfClasses == 1)
                                   Text(
                                     'Today you have $numberOfClasses class,',
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                       fontFamily: 'Segoe UI',
-                                      fontSize: 24,
+                                      fontSize: size.width * 0.061,
                                       fontWeight: FontWeight.w600,
                                     ),
                                   )
                                 else
                                   Text(
                                     'Today you have $numberOfClasses classes,',
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                       fontFamily: 'Segoe UI',
-                                      fontSize: 24,
+                                      fontSize: size.width * 0.061,
                                       fontWeight: FontWeight.w600,
                                     ),
                                   ),
                                 SizedBox(height: size.height * 0.005),
                                 if (nextClassPeriod == -1)
-                                  const Text(
+                                  Text(
                                     'No more classes for the day',
                                     style: TextStyle(
                                       fontFamily: 'Segoe UI',
-                                      fontSize: 24,
+                                      fontSize: size.width * 0.061,
                                       fontWeight: FontWeight.w600,
                                     ),
                                   )
                                 else
                                   Text(
                                     'Next class is period $nextClassPeriod',
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                       fontFamily: 'Segoe UI',
-                                      fontSize: 24,
+                                      fontSize: size.width * 0.061,
                                       fontWeight: FontWeight.w600,
                                     ),
                                   ),
                               ] else ...[
-                                const Text(
+                                Text(
                                   'You have no classes today.',
                                   style: TextStyle(
                                     fontFamily: 'Segoe UI',
-                                    fontSize: 28,
+                                    fontSize: size.width * 0.07,
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
@@ -196,7 +195,6 @@ class _DailyScreenState extends State<DailyScreen> {
                       )),
                 ),
               ),
-
               SizedBox(height: size.height * 0.1),
             ],
           );
@@ -218,7 +216,7 @@ class _DailyScreenState extends State<DailyScreen> {
   }
 
   // Count the number of non-null classes in the courses map
-  int _countNonNullClasses(Map<int, Course>? courses) {
+  int _countNonNullClasses(Map<int, List<Course>>? courses) {
     int count = 0;
     for (final course in courses?.values.toList() ?? []) {
       if (course.courseTitle != null) {
@@ -229,19 +227,17 @@ class _DailyScreenState extends State<DailyScreen> {
   }
 
   // Calculate the next class period based on the current time and the classes
-  int _calculateNextClassPeriod(Map<int, Course>? courses) {
+  int _calculateNextClassPeriod(Map<int, List<Course>>? courses) {
     final DateTime now = DateTime.now();
     List<DateTimeRange> classTimes = ClassTimes.getClassTimes(now);
 
     // Find the first class range that hasn't ended yet
     for (int i = 0; i < classTimes.length; i++) {
       final DateTimeRange classRange = classTimes[i];
-      if (now.isBefore(classRange.start) && courses?[i]!.id != null) {
+      if (now.isBefore(classRange.start) && courses?[i]?[0].id != null) {
         return i + 1; // Return the class period (index + 1)
       }
     }
-
-    // If no class is found, return 0
     return -1;
   }
 }
