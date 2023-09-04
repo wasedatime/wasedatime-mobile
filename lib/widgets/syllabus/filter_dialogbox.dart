@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:wasedatime/widgets/syllabus/day_filters.dart';
 
 import 'package:wasedatime/widgets/syllabus/filter_dropdown.dart';
+import 'package:wasedatime/widgets/syllabus/period_filters.dart';
 
 import '../../models/course.dart';
 
@@ -36,7 +38,7 @@ class FilterDialogBox {
     List<String> selectedLanguages = [];
     List<String> selectedClassModalities = [];
 
-    Map<int, bool> selectedDays = {
+    Map<int, bool> _selectedDays = {
       1: false,
       2: false,
       3: false,
@@ -45,7 +47,7 @@ class FilterDialogBox {
       6: false,
     };
 
-    Map<int, bool> selectedPeriods = {
+    Map<int, bool> _selectedPeriods = {
       1: false,
       2: false,
       3: false,
@@ -54,14 +56,14 @@ class FilterDialogBox {
       6: false,
     };
 
-    Map<int, bool> selectedEligibleYear = {
+    Map<int, bool> _selectedEligibleYear = {
       1: false,
       2: false,
       3: false,
       4: false,
     };
 
-    Map<int, bool> selectedCredits = {
+    Map<int, bool> _selectedCredits = {
       1: false,
       2: false,
       3: false,
@@ -121,17 +123,14 @@ class FilterDialogBox {
                     height: 12,
                   ),
                   const Text("Days"),
-                  // Row(
-                  //   children: [
-                  //     for (MapEntry day in selectedDays.entries)
-                  //       // FilterCheckBoxes(options: selectedDays, day: day)
-
-                  //   ],
-                  // ),
+                  DayFilters(
+                    selectedDays: _selectedDays,
+                  ),
                   const SizedBox(
                     height: 12,
                   ),
                   const Text("Periods"),
+                  PeriodFilters(selectedPeriods: _selectedPeriods),
                   const SizedBox(
                     height: 12,
                   ),
