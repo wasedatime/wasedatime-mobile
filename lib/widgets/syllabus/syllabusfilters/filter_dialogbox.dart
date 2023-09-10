@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:wasedatime/widgets/syllabus/day_filters.dart';
 
-import 'package:wasedatime/widgets/syllabus/filter_dropdown.dart';
-import 'package:wasedatime/widgets/syllabus/period_filters.dart';
+import 'package:wasedatime/widgets/syllabus/syllabusfilters/dropdownfilters/filter_dropdown.dart';
+import 'package:wasedatime/widgets/syllabus/syllabusfilters/dropdownfilters/semester_dropdown.dart';
+import 'package:wasedatime/widgets/syllabus/syllabusfilters/schoolsfilters/schools_dialogbox.dart';
 
-import '../../models/course.dart';
+import 'checkboxfilters/creditfilters/credit_filters_V2.dart';
+import 'checkboxfilters/dayfilters/day_filters_v2.dart';
+import 'checkboxfilters/eligyearfilters/eligible_year_V2.dart';
+import 'checkboxfilters/periodfilters/period_filter_V2.dart';
 
 class FilterDialogBox {
   static void showFilterDialogBox(BuildContext context) {
@@ -38,37 +41,6 @@ class FilterDialogBox {
     List<String> selectedLanguages = [];
     List<String> selectedClassModalities = [];
 
-    Map<int, bool> _selectedDays = {
-      1: false,
-      2: false,
-      3: false,
-      4: false,
-      5: false,
-      6: false,
-    };
-
-    Map<int, bool> _selectedPeriods = {
-      1: false,
-      2: false,
-      3: false,
-      4: false,
-      5: false,
-      6: false,
-    };
-
-    Map<int, bool> _selectedEligibleYear = {
-      1: false,
-      2: false,
-      3: false,
-      4: false,
-    };
-
-    Map<int, bool> _selectedCredits = {
-      1: false,
-      2: false,
-      3: false,
-    };
-
     final Size size = MediaQuery.of(context).size;
 
     showDialog(
@@ -78,6 +50,7 @@ class FilterDialogBox {
         return AlertDialog(
           title: const Text(
             'Filters',
+            style: TextStyle(fontWeight: FontWeight.w700),
           ),
           content: SizedBox(
             height: size.height * 0.4,
@@ -92,21 +65,34 @@ class FilterDialogBox {
                         style: ButtonStyle(
                             backgroundColor:
                                 MaterialStatePropertyAll(Colors.red[900])),
-                        onPressed: () {},
+                        onPressed: () {
+                          SchoolsDialogBox.showSchoolsDialogBox(context);
+                        },
                         child: const Text("Choose your schools")),
                   ),
                   const SizedBox(
                     height: 12,
                   ),
-                  const Text("Semesters"),
-                  FilterDropdown(
+                  const Text(
+                    "Semesters",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  // FilterDropdown(
+                  //     label: "Select Semester",
+                  //     options: semesters,
+                  //     selectedValues: selectedSemesters),
+                  SemesterDropdown(
                       label: "Select Semester",
                       options: semesters,
                       selectedValues: selectedSemesters),
+
                   const SizedBox(
                     height: 12,
                   ),
-                  const Text("Languages"),
+                  const Text(
+                    "Languages",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                   FilterDropdown(
                       label: "Select Languages",
                       options: languages,
@@ -114,7 +100,10 @@ class FilterDialogBox {
                   const SizedBox(
                     height: 12,
                   ),
-                  const Text("Class Modality"),
+                  const Text(
+                    "Class Modality",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                   FilterDropdown(
                       label: "Select Class Modality",
                       options: modalities,
@@ -122,23 +111,42 @@ class FilterDialogBox {
                   const SizedBox(
                     height: 12,
                   ),
-                  const Text("Days"),
-                  DayFilters(
-                    selectedDays: _selectedDays,
+                  const Text(
+                    "Days",
+                    style: TextStyle(fontWeight: FontWeight.bold),
                   ),
+                  // DayFilters(
+                  //   selectedDays: _selectedDays,
+                  // ),
+                  const DayFiltersV2(),
                   const SizedBox(
                     height: 12,
                   ),
-                  const Text("Periods"),
-                  PeriodFilters(selectedPeriods: _selectedPeriods),
+                  const Text(
+                    "Periods",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  // PeriodFilters(selectedPeriods: _selectedPeriods),
+                  const PeriodsFiltersV2(),
                   const SizedBox(
                     height: 12,
                   ),
-                  const Text("Eligible Year"),
+                  const Text(
+                    "Eligible Year",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  const EligibleYearFiltersV2(),
+                  // EligibleYearFilters(
+                  //     selectedEligibleYear: _selectedEligibleYear),
                   const SizedBox(
                     height: 12,
                   ),
-                  const Text("Credits"),
+                  const Text(
+                    "Credits",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  // EligibleYearFilters(selectedEligibleYear: _selectedCredits),
+                  const CreditFiltersV2()
                 ],
               ),
             ),

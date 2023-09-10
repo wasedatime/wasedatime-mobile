@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'widgets/navbar.dart';
 import 'models/class_times.dart';
 import 'utils/db_helper.dart';
@@ -20,7 +21,7 @@ void main() async {
 
   //TO IMPLEMENT: Empty cache every three months or after each semester ends
 
-  runApp(const MainApp());
+  runApp(const ProviderScope(child: MainApp()));
 }
 
 class MainApp extends StatefulWidget {
@@ -56,9 +57,3 @@ class _MainAppState extends State<MainApp> {
     );
   }
 }
-//
-// android {
-// defaultConfig {
-// minSdkVersion 24
-// }
-// }

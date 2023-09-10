@@ -9,7 +9,7 @@ import 'package:wasedatime/models/cache_course.dart';
 
 import '../utils/db_helper.dart';
 import '../widgets/syllabus/course_card.dart';
-import '../widgets/syllabus/filter_dialogbox.dart';
+import '../widgets/syllabus/syllabusfilters/filter_dialogbox.dart';
 
 class SyllabusScreen extends StatefulWidget {
   const SyllabusScreen({Key? key}) : super(key: key);

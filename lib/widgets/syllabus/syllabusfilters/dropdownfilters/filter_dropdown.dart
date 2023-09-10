@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:multiselect/multiselect.dart';
 
-class FilterDropdown extends StatefulWidget {
+class FilterDropdown extends ConsumerStatefulWidget {
   final String label;
   final List<String> options;
   final List<String> selectedValues;
@@ -12,10 +13,10 @@ class FilterDropdown extends StatefulWidget {
       required this.selectedValues});
 
   @override
-  State<FilterDropdown> createState() => _FilterDropdownState();
+  ConsumerState<FilterDropdown> createState() => _FilterDropdownState();
 }
 
-class _FilterDropdownState extends State<FilterDropdown> {
+class _FilterDropdownState extends ConsumerState<FilterDropdown> {
   @override
   Widget build(BuildContext context) {
     return DropDownMultiSelect(
