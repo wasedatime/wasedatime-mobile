@@ -1,3 +1,4 @@
+import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:multiselect/multiselect.dart';
@@ -31,7 +32,8 @@ class _SemesterDropdownState extends ConsumerState<SemesterDropdown> {
         // .updateSelectedSemesters(widget.selectedValues
         // , newValue)
         // selectedValues = x;
-        ref.read(semesterFilterNotifier.notifier).updateSelectedSemesters2(x);
+        safePrint(x);
+        ref.read(semesterFilterNotifier.notifier).updateSelectedSemesters(x);
       },
       // childBuilder: ,
       options: widget.options,

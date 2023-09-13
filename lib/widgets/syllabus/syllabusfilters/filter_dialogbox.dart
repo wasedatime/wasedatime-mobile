@@ -41,8 +41,6 @@ class FilterDialogBox {
     List<String> selectedLanguages = [];
     List<String> selectedClassModalities = [];
 
-    final Size size = MediaQuery.of(context).size;
-
     showDialog(
       context: context,
       builder: (BuildContext context) {

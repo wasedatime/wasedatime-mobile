@@ -39,7 +39,7 @@ class _DayFiltersState extends State<DayFilters> {
                   ),
                 ],
               ),
-              Spacer(),
+              const Spacer(),
               Row(
                 children: [
                   Checkbox(
@@ -60,7 +60,7 @@ class _DayFiltersState extends State<DayFilters> {
                   ),
                 ],
               ),
-              Spacer(),
+              const Spacer(),
               Row(
                 children: [
                   Checkbox(
@@ -106,7 +106,7 @@ class _DayFiltersState extends State<DayFilters> {
                   ),
                 ],
               ),
-              Spacer(),
+              const Spacer(),
               Row(
                 children: [
                   Checkbox(
@@ -127,7 +127,7 @@ class _DayFiltersState extends State<DayFilters> {
                   ),
                 ],
               ),
-              Spacer(),
+              const Spacer(),
               Row(
                 children: [
                   Checkbox(

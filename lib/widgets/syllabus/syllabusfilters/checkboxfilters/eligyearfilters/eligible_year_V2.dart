@@ -14,8 +14,6 @@ class EligibleYearFiltersV2 extends ConsumerStatefulWidget {
 class _EligibleYearFiltersV2State extends ConsumerState<EligibleYearFiltersV2> {
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-
     final selectedEligibleYears = ref.watch(eligibleYearsFilterNotifier);
 
     return SizedBox(

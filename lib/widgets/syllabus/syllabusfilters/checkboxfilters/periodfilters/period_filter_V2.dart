@@ -14,8 +14,6 @@ class PeriodsFiltersV2 extends ConsumerStatefulWidget {
 class _PeriodsFiltersV2State extends ConsumerState<PeriodsFiltersV2> {
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-
     final selectedPeriods = ref.watch(periodsFilterNotifier);
 
     return SizedBox(

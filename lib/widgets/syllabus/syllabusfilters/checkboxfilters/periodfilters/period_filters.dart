@@ -171,6 +171,5 @@ class _PeriodFiltersState extends State<PeriodFilters> {
             ],
           ),
         ]));
-    ;
   }
 }

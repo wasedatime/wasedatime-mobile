@@ -13,8 +13,6 @@ class DayFiltersV2 extends ConsumerStatefulWidget {
 class _DayFiltersV2State extends ConsumerState<DayFiltersV2> {
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-
     final selectedDays = ref.watch(daysFilterNotifier);
 
     return SizedBox(
@@ -27,12 +25,12 @@ class _DayFiltersV2State extends ConsumerState<DayFiltersV2> {
               selectValue: selectedDays[Day.monday]!,
               label: "Mon",
             ),
-            Spacer(),
+            const Spacer(),
             FilterDay(
                 selectDay: Day.tuesday,
                 selectValue: selectedDays[Day.tuesday]!,
                 label: "Tue"),
-            Spacer(),
+            const Spacer(),
             FilterDay(
                 selectDay: Day.wednesday,
                 selectValue: selectedDays[Day.wednesday]!,
@@ -46,12 +44,12 @@ class _DayFiltersV2State extends ConsumerState<DayFiltersV2> {
               selectValue: selectedDays[Day.thursday]!,
               label: "Thu",
             ),
-            Spacer(),
+            const Spacer(),
             FilterDay(
                 selectDay: Day.friday,
                 selectValue: selectedDays[Day.friday]!,
                 label: "Fri"),
-            Spacer(),
+            const Spacer(),
             FilterDay(
                 selectDay: Day.saturday,
                 selectValue: selectedDays[Day.saturday]!,

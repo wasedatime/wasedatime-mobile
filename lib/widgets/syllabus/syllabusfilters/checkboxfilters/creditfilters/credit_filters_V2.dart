@@ -14,8 +14,6 @@ class CreditFiltersV2 extends ConsumerStatefulWidget {
 class _CreditFiltersV2State extends ConsumerState<CreditFiltersV2> {
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-
     final selectedCredits = ref.watch(creditsFilterNotifier);
 
     return SizedBox(
