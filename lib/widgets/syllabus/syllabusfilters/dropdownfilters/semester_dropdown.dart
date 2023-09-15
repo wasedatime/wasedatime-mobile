@@ -21,17 +21,8 @@ class SemesterDropdown extends ConsumerStatefulWidget {
 class _SemesterDropdownState extends ConsumerState<SemesterDropdown> {
   @override
   Widget build(BuildContext context) {
-    final selectedSemesters = ref.watch(semesterFilterNotifier);
-
     return DropDownMultiSelect(
       onChanged: (List<String> x) {
-        // setState(() {
-        //   selectedSemesters = x;
-        // });
-        // ref.read(semesterFilterNotifier.notifier)
-        // .updateSelectedSemesters(widget.selectedValues
-        // , newValue)
-        // selectedValues = x;
         safePrint(x);
         ref.read(semesterFilterNotifier.notifier).updateSelectedSemesters(x);
       },

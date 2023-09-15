@@ -21,38 +21,28 @@ class SemesterFilterNotifier extends StateNotifier<Map<String, bool>> {
           '3q': false,
         });
 
-  final List<String> selectedSemesters = [];
-
   void updateSelectedSemesters(List<String> semesters) {
     // BUG: only updates when selecting and not when deselecting
     safePrint(semesters);
-    for (String j in allSemesters) {
-      if (state[semesterMap[j]] == true && !semesters.contains(j)) {
-        // means that it was previously checked and is now unchecked
-        // update the state
-        safePrint("$j ${semesterMap[j]} ${state[semesterMap[j]]}");
-        bool newValue = !state[semesterMap[j]]!;
-        state = {...state, semesterMap[j]!: newValue};
-      }
+    safePrint(state);
+    final Map<String, bool> updatedState = {};
+
+    // Initialize all semesters to false intially
+    // and update everytime the widget is changed (select or deselect)
+    for (final sem in allSemesters) {
+      updatedState[semesterMap[sem]!] = false;
     }
-    for (String i in semesters) {
-      bool newValue = !state[semesterMap[i]]!;
-      safePrint("$i ${semesterMap[i]} $newValue");
-      state = {...state, semesterMap[i]!: newValue};
+
+    // Selected semesters are set to true
+    for (final semester in semesters) {
+      updatedState[semesterMap[semester]!] = true;
+      safePrint(updatedState[semesterMap[semester]!]);
     }
+
+    state = updatedState;
 
     safePrint(state);
   }
-
-  // void updateSelectedSemesters2(ListM) {
-  //   for
-  // }
-
-  // to be added if there are any bugs in the UI
-
-  // List<String> getSelectedSemesters() {
-  //   state.forEach((key, value) {});
-  // }
 
   final Map<String, String> semesterMap = {
     'Spring Semester': '0s',
