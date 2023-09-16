@@ -38,7 +38,7 @@ class _PeriodFiltersState extends State<PeriodFilters> {
                   ),
                 ],
               ),
-              Spacer(),
+              const Spacer(),
               Row(
                 children: [
                   Checkbox(
@@ -59,7 +59,7 @@ class _PeriodFiltersState extends State<PeriodFilters> {
                   ),
                 ],
               ),
-              Spacer(),
+              const Spacer(),
               Row(
                 children: [
                   Checkbox(
@@ -80,7 +80,7 @@ class _PeriodFiltersState extends State<PeriodFilters> {
                   ),
                 ],
               ),
-              Spacer(),
+              const Spacer(),
               Row(
                 children: [
                   Checkbox(
@@ -126,7 +126,7 @@ class _PeriodFiltersState extends State<PeriodFilters> {
                   ),
                 ],
               ),
-              Spacer(),
+              const Spacer(),
               Row(
                 children: [
                   Checkbox(
@@ -147,7 +147,7 @@ class _PeriodFiltersState extends State<PeriodFilters> {
                   ),
                 ],
               ),
-              Spacer(),
+              const Spacer(),
               Row(
                 children: [
                   Checkbox(
