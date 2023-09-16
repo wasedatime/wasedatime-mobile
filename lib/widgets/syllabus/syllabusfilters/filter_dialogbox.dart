@@ -4,10 +4,10 @@ import 'package:wasedatime/widgets/syllabus/syllabusfilters/dropdownfilters/filt
 import 'package:wasedatime/widgets/syllabus/syllabusfilters/dropdownfilters/semester_dropdown.dart';
 import 'package:wasedatime/widgets/syllabus/syllabusfilters/schoolsfilters/schools_dialogbox.dart';
 
-import 'checkboxfilters/creditfilters/credit_filters_V2.dart';
+import 'checkboxfilters/creditfilters/credit_filters_v2.dart';
 import 'checkboxfilters/dayfilters/day_filters_v2.dart';
-import 'checkboxfilters/eligyearfilters/eligible_year_V2.dart';
-import 'checkboxfilters/periodfilters/period_filter_V2.dart';
+import 'checkboxfilters/eligyearfilters/eligible_year_v2.dart';
+import 'checkboxfilters/periodfilters/period_filter_v2.dart';
 
 class FilterDialogBox {
   static void showFilterDialogBox(BuildContext context) {
@@ -75,15 +75,10 @@ class FilterDialogBox {
                     "Semesters",
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  // FilterDropdown(
-                  //     label: "Select Semester",
-                  //     options: semesters,
-                  //     selectedValues: selectedSemesters),
                   SemesterDropdown(
                       label: "Select Semester",
                       options: semesters,
                       selectedValues: selectedSemesters),
-
                   const SizedBox(
                     height: 12,
                   ),
@@ -113,9 +108,6 @@ class FilterDialogBox {
                     "Days",
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  // DayFilters(
-                  //   selectedDays: _selectedDays,
-                  // ),
                   const DayFiltersV2(),
                   const SizedBox(
                     height: 12,
@@ -124,7 +116,6 @@ class FilterDialogBox {
                     "Periods",
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  // PeriodFilters(selectedPeriods: _selectedPeriods),
                   const PeriodsFiltersV2(),
                   const SizedBox(
                     height: 12,
@@ -134,8 +125,6 @@ class FilterDialogBox {
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                   const EligibleYearFiltersV2(),
-                  // EligibleYearFilters(
-                  //     selectedEligibleYear: _selectedEligibleYear),
                   const SizedBox(
                     height: 12,
                   ),
@@ -143,7 +132,6 @@ class FilterDialogBox {
                     "Credits",
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  // EligibleYearFilters(selectedEligibleYear: _selectedCredits),
                   const CreditFiltersV2()
                 ],
               ),
