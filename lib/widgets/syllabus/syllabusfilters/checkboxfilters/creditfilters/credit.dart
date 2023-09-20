@@ -35,7 +35,7 @@ class _FilterDayState extends ConsumerState<CreditFilter> {
             }),
         SizedBox(
           width:
-              widget.selectCredit == 3 ? size.width * 0.05 : size.width * 0.04,
+              widget.selectCredit == 3 ? size.width * 0.06 : size.width * 0.04,
           child: Text(widget.label),
         ),
       ],

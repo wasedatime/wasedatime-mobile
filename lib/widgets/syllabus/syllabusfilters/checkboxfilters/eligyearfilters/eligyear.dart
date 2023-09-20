@@ -34,7 +34,7 @@ class _FilterDayState extends ConsumerState<EligibleYear> {
                   .updateEligibleYear(widget.selectYear, widget.selectValue);
             }),
         SizedBox(
-          width: size.width * 0.05,
+          width: size.width * 0.06,
           child: Text(widget.label),
         ),
       ],

@@ -38,7 +38,7 @@ class _FilterDayState extends ConsumerState<FilterDay> {
                   .updateDay(widget.selectDay, widget.selectValue);
             }),
         SizedBox(
-          width: size.width * 0.08,
+          width: size.width * 0.1,
           child: Text(widget.label),
         ),
       ],
