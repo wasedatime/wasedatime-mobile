@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:wasedatime/widgets/syllabus/syllabusfilters/dropdownfilters/class_modality_dropdown.dart';
 
 import 'package:wasedatime/widgets/syllabus/syllabusfilters/dropdownfilters/filter_dropdown.dart';
+import 'package:wasedatime/widgets/syllabus/syllabusfilters/dropdownfilters/language_dropdown.dart';
 import 'package:wasedatime/widgets/syllabus/syllabusfilters/dropdownfilters/semester_dropdown.dart';
 import 'package:wasedatime/widgets/syllabus/syllabusfilters/schoolsfilters/schools_dialogbox.dart';
 
@@ -86,7 +88,7 @@ class FilterDialogBox {
                     "Languages",
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  FilterDropdown(
+                  LanguagesDropdown(
                       label: "Select Languages",
                       options: languages,
                       selectedValues: selectedLanguages),
@@ -97,7 +99,7 @@ class FilterDialogBox {
                     "Class Modality",
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  FilterDropdown(
+                  ClassModalityDropdown(
                       label: "Select Class Modality",
                       options: modalities,
                       selectedValues: selectedClassModalities),
@@ -132,7 +134,25 @@ class FilterDialogBox {
                     "Credits",
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  const CreditFiltersV2()
+                  const CreditFiltersV2(),
+                  const Text(
+                    "Evaluation",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(
+                    height: 12,
+                  ),
+                  const Text(
+                    "Type",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(
+                    height: 12,
+                  ),
+                  const Text(
+                    "Level",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                 ],
               ),
             ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wasedatime/widgets/syllabus/providers/period_filter_provider.dart';
+import 'package:wasedatime/widgets/syllabus/providers/checkboxProviders/period_filter_provider.dart';
 
 import 'period.dart';
 

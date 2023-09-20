@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../providers/day_filter_provider.dart';
+import '../../../providers/checkboxProviders/day_filter_provider.dart';
 
 class FilterDay extends ConsumerStatefulWidget {
   final Day selectDay;

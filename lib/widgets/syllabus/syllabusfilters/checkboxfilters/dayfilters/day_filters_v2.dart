@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wasedatime/widgets/syllabus/providers/day_filter_provider.dart';
+import 'package:wasedatime/widgets/syllabus/providers/checkboxProviders/day_filter_provider.dart';
 import './day.dart';
 
 class DayFiltersV2 extends ConsumerStatefulWidget {

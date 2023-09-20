@@ -19,16 +19,20 @@ class ClassModalityNotifier extends StateNotifier<Map<String, bool>> {
           'Realtime Streaming': false,
         });
 
-  void updateSelectedSemesters(List<String> semesters) {
-    // BUG: only updates when selecting and not when deselecting
+  void updateSelectedModalities(List<String> updatedModalities) {
     final Map<String, bool> updatedState = {};
 
     // Initialize all semesters to false intially
     // and update everytime the widget is changed (select or deselect)
-    for (final mod in modalities) {}
+    for (final mod in modalities) {
+      updatedState[mod] = false;
+    }
 
     // Selected semesters are set to true
-    for (final modality in semesters) {}
+    for (final modality in updatedModalities) {
+      updatedState[modality] = true;
+      safePrint(updatedState[modality]);
+    }
 
     state = updatedState;
 

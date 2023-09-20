@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wasedatime/widgets/syllabus/providers/credit_filter_provider.dart';
+import 'package:wasedatime/widgets/syllabus/providers/checkboxProviders/credit_filter_provider.dart';
 
 class CreditFilter extends ConsumerStatefulWidget {
   final int selectCredit;

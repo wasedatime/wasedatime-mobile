@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wasedatime/widgets/syllabus/providers/elig_year_provider.dart';
+import 'package:wasedatime/widgets/syllabus/providers/checkboxProviders/elig_year_provider.dart';
 import 'eligyear.dart';
 
 class EligibleYearFiltersV2 extends ConsumerStatefulWidget {
