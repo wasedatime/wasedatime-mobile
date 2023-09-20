@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:wasedatime/widgets/syllabus/providers/dropdownProviders/evaluation_provider.dart';
 import 'package:wasedatime/widgets/syllabus/providers/dropdownProviders/type_level_provider.dart';
 
 class TypeAndLevelDropdown extends ConsumerStatefulWidget {
@@ -37,13 +38,18 @@ class _TypeAndLevelDropdownState extends ConsumerState<TypeAndLevelDropdown> {
         onChanged: (newValue) {
           if (widget.label == 'type') {
             ref
-                .watch(typeAndLevelNotifier.notifier)
+                .read(typeAndLevelNotifier.notifier)
                 .updateSelectedTypeAndLevel(updatedType: newValue);
           }
           if (widget.label == 'level') {
             ref
-                .watch(typeAndLevelNotifier.notifier)
+                .read(typeAndLevelNotifier.notifier)
                 .updateSelectedTypeAndLevel(updatedLevel: newValue);
+          }
+          if (widget.label == 'evaluation') {
+            ref
+                .read(evaluationNotifier.notifier)
+                .updateEvaluations(updatedEvaluation: newValue);
           }
           setState(() {
             dropdownValue = newValue!;

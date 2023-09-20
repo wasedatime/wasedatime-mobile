@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:wasedatime/widgets/syllabus/syllabusfilters/dropdownfilters/class_modality_dropdown.dart';
-import 'package:wasedatime/widgets/syllabus/syllabusfilters/dropdownfilters/evaluation_filter.dart';
-
-import 'package:wasedatime/widgets/syllabus/syllabusfilters/dropdownfilters/filter_dropdown.dart';
-import 'package:wasedatime/widgets/syllabus/syllabusfilters/dropdownfilters/language_dropdown.dart';
-import 'package:wasedatime/widgets/syllabus/syllabusfilters/dropdownfilters/semester_dropdown.dart';
+import 'package:wasedatime/widgets/syllabus/syllabusfilters/dropdownfilters/dropdown_filter.dart';
 import 'package:wasedatime/widgets/syllabus/syllabusfilters/dropdownfilters/type_level_dropdown.dart';
+import 'package:wasedatime/widgets/syllabus/syllabusfilters/dropdownfilters/evaluation_filter.dart';
 import 'package:wasedatime/widgets/syllabus/syllabusfilters/schoolsfilters/schools_dialogbox.dart';
 
 import 'checkboxfilters/creditfilters/credit_filters_v2.dart';
@@ -101,7 +97,7 @@ class FilterDialogBox {
                     "Semesters",
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  SemesterDropdown(
+                  DropdownFilterMulti(
                       label: "Select Semester",
                       options: semesters,
                       selectedValues: selectedSemesters),
@@ -112,7 +108,7 @@ class FilterDialogBox {
                     "Languages",
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  LanguagesDropdown(
+                  DropdownFilterMulti(
                       label: "Select Languages",
                       options: languages,
                       selectedValues: selectedLanguages),
@@ -123,7 +119,7 @@ class FilterDialogBox {
                     "Class Modality",
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  ClassModalityDropdown(
+                  DropdownFilterMulti(
                       label: "Select Class Modality",
                       options: modalities,
                       selectedValues: selectedClassModalities),
@@ -163,6 +159,7 @@ class FilterDialogBox {
                     "Evaluation",
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
+                  EvaluationFilter(),
                   const SizedBox(
                     height: 12,
                   ),

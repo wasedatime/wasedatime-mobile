@@ -25,6 +25,7 @@ class _FilterDayState extends ConsumerState<CreditFilter> {
     return Row(
       children: [
         Checkbox(
+            activeColor: Colors.red[900],
             materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
             visualDensity: const VisualDensity(horizontal: -4, vertical: -2),
             value: widget.selectValue,
