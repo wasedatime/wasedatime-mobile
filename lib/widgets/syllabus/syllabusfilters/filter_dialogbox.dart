@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:wasedatime/widgets/syllabus/syllabusfilters/dropdownfilters/class_modality_dropdown.dart';
+import 'package:wasedatime/widgets/syllabus/syllabusfilters/dropdownfilters/evaluation_filter.dart';
 
 import 'package:wasedatime/widgets/syllabus/syllabusfilters/dropdownfilters/filter_dropdown.dart';
 import 'package:wasedatime/widgets/syllabus/syllabusfilters/dropdownfilters/language_dropdown.dart';
 import 'package:wasedatime/widgets/syllabus/syllabusfilters/dropdownfilters/semester_dropdown.dart';
+import 'package:wasedatime/widgets/syllabus/syllabusfilters/dropdownfilters/type_level_dropdown.dart';
 import 'package:wasedatime/widgets/syllabus/syllabusfilters/schoolsfilters/schools_dialogbox.dart';
 
 import 'checkboxfilters/creditfilters/credit_filters_v2.dart';
@@ -42,6 +44,28 @@ class FilterDialogBox {
     List<String> selectedSemesters = [];
     List<String> selectedLanguages = [];
     List<String> selectedClassModalities = [];
+
+    const List<String> types = [
+      'Select Type',
+      'Lecture',
+      'Seminar',
+      'Work',
+      'Foreign Language',
+      'On-demand',
+      'Thesis',
+      'Graduate Research',
+      'Practice',
+      'Blended'
+    ];
+    const List<String> levels = [
+      'Select Level',
+      'Beginner',
+      'Intermediate',
+      'Advanced',
+      'Final-stage',
+      'Master',
+      'Doctor',
+    ];
 
     showDialog(
       context: context,
@@ -146,12 +170,20 @@ class FilterDialogBox {
                     "Type",
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
+                  const TypeAndLevelDropdown(
+                    label: 'type',
+                    listOptions: types,
+                  ),
                   const SizedBox(
                     height: 12,
                   ),
                   const Text(
                     "Level",
                     style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  const TypeAndLevelDropdown(
+                    label: 'level',
+                    listOptions: levels,
                   ),
                 ],
               ),
