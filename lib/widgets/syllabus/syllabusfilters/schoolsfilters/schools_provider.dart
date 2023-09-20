@@ -67,7 +67,7 @@ class SchoolsFilterNotifier
 
     state = updatedState;
 
-    safePrint(state);
+    // safePrint(state);
   }
 }
 
