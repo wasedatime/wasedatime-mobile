@@ -2,7 +2,7 @@ import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wasedatime/widgets/syllabus/providers/dropdownProviders/evaluation_provider.dart';
-import 'package:wasedatime/widgets/syllabus/syllabusfilters/dropdownfilters/type_level_dropdown.dart';
+import 'package:wasedatime/widgets/syllabus/syllabusfilters/dropdownfilters/evaluation_dropdown.dart';
 
 const List<String> evaluations = [
   'Select Evaluation',
@@ -21,17 +21,23 @@ class EvaluationFilter extends ConsumerStatefulWidget {
 
 class _EvaluationFilterState extends ConsumerState<EvaluationFilter> {
   RangeValues _currentRangeValues = RangeValues(0, 100);
+
+  RangeValues getRangeValues() {
+    _currentRangeValues =
+        ref.read(evaluationNotifier.notifier).getCurrentRangeValues;
+    return _currentRangeValues;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const TypeAndLevelDropdown(
-          label: 'evaluation',
+        const EvaluationDropdown(
           listOptions: evaluations,
         ),
         RangeSlider(
           activeColor: Color.fromARGB(255, 155, 17, 17),
-          values: _currentRangeValues,
+          values: getRangeValues(),
           min: 0,
           max: 100,
           divisions: 10,

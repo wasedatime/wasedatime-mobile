@@ -22,8 +22,25 @@ class DropdownFilterMulti extends ConsumerStatefulWidget {
 }
 
 class _DropdownFilterMultiState extends ConsumerState<DropdownFilterMulti> {
+  List<String> currentSelectedValues = [];
+
   @override
   Widget build(BuildContext context) {
+    List<String> getValues() {
+      if (widget.label == 'Select Class Modality') {
+        currentSelectedValues =
+            ref.read(classModalityNotifier.notifier).currentSelectedModalities;
+        safePrint(currentSelectedValues);
+      }
+      if (widget.label == 'Select Languages') {
+        currentSelectedValues =
+            ref.read(languageFilterNotifier.notifier).currentSelectedLanguages;
+        safePrint(currentSelectedValues);
+      }
+
+      return currentSelectedValues;
+    }
+
     return Container(
       margin: const EdgeInsets.only(top: 5),
       child: DropDownMultiSelect(
@@ -37,26 +54,29 @@ class _DropdownFilterMultiState extends ConsumerState<DropdownFilterMulti> {
             enabledBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: Colors.black54))),
         onChanged: (List<String> x) {
+          currentSelectedValues = x;
           safePrint(x);
           if (widget.label == 'Select Languages') {
             ref
                 .read(languageFilterNotifier.notifier)
                 .updateSelectedLanguages(x);
           }
-          if (widget.label == 'Select Semester') {
+          if (widget.label == 'Select Semesters') {
             ref
                 .read(semesterFilterNotifier.notifier)
                 .updateSelectedSemesters(x);
+            getValues();
           }
           if (widget.label == 'Select Class Modality') {
             ref
                 .read(classModalityNotifier.notifier)
                 .updateSelectedModalities(x);
           }
+          setState(() {});
         },
         // childBuilder: ,
         options: widget.options,
-        selectedValues: widget.selectedValues,
+        selectedValues: getValues(),
         whenEmpty: widget.label,
       ),
     );

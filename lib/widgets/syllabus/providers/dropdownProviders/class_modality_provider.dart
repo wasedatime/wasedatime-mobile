@@ -19,7 +19,10 @@ class ClassModalityNotifier extends StateNotifier<Map<String, bool>> {
           'Realtime Streaming': false,
         });
 
+  List<String> currentSelectedModalities = [];
+
   void updateSelectedModalities(List<String> updatedModalities) {
+    safePrint("sadasda $currentSelectedModalities");
     final Map<String, bool> updatedState = {};
 
     // Initialize all semesters to false intially
@@ -31,15 +34,27 @@ class ClassModalityNotifier extends StateNotifier<Map<String, bool>> {
     // Selected semesters are set to true
     for (final modality in updatedModalities) {
       updatedState[modality] = true;
-      safePrint(updatedState[modality]);
+      // safePrint(updatedState[modality]);
     }
 
     state = updatedState;
 
-    safePrint(state);
+    currentSelectedModalities =
+        state.keys.where((element) => state[element]!).toList();
+
+    // safePrint(state);
   }
 
-  final Map<String, String> classModalityMap = {};
+  List<String> getSelectedModalities() {
+    // So that the dropdown field shows which semesters are selected
+    // even if the user closes the dialog box
+    // The bug was that the state was maintained but the UI didnt
+    // reflect the state changes
+    currentSelectedModalities =
+        state.keys.where((element) => state[element]!).toList();
+    // safePrint(currentSelectedModalities);
+    return currentSelectedModalities;
+  }
 }
 
 final classModalityNotifier =

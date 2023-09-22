@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:wasedatime/widgets/syllabus/syllabusfilters/dropdownfilters/class_modality_dropdown.dart';
 import 'package:wasedatime/widgets/syllabus/syllabusfilters/dropdownfilters/dropdown_filter.dart';
-import 'package:wasedatime/widgets/syllabus/syllabusfilters/dropdownfilters/type_level_dropdown.dart';
+import 'package:wasedatime/widgets/syllabus/syllabusfilters/dropdownfilters/language_dropdown.dart';
+import 'package:wasedatime/widgets/syllabus/syllabusfilters/dropdownfilters/level_dropdown.dart';
+import 'package:wasedatime/widgets/syllabus/syllabusfilters/dropdownfilters/semester_dropdown.dart';
+import 'package:wasedatime/widgets/syllabus/syllabusfilters/dropdownfilters/type_dropdown.dart';
 import 'package:wasedatime/widgets/syllabus/syllabusfilters/dropdownfilters/evaluation_filter.dart';
 import 'package:wasedatime/widgets/syllabus/syllabusfilters/schoolsfilters/schools_dialogbox.dart';
 
@@ -36,10 +40,6 @@ class FilterDialogBox {
       "Scheduled On-demand",
       "Realtime Streaming",
     ];
-
-    List<String> selectedSemesters = [];
-    List<String> selectedLanguages = [];
-    List<String> selectedClassModalities = [];
 
     const List<String> types = [
       'Select Type',
@@ -97,10 +97,12 @@ class FilterDialogBox {
                     "Semesters",
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  DropdownFilterMulti(
-                      label: "Select Semester",
-                      options: semesters,
-                      selectedValues: selectedSemesters),
+                  // DropdownFilterMulti(
+                  //     label: "Select Semesters",
+                  //     options: semesters,
+                  //     selectedValues: selectedSemesters),
+                  SemesterDropdown(
+                      label: 'Select Semesters', options: semesters),
                   const SizedBox(
                     height: 12,
                   ),
@@ -108,10 +110,12 @@ class FilterDialogBox {
                     "Languages",
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  DropdownFilterMulti(
-                      label: "Select Languages",
-                      options: languages,
-                      selectedValues: selectedLanguages),
+                  // DropdownFilterMulti(
+                  //     label: "Select Languages",
+                  //     options: languages,
+                  //     selectedValues: selectedLanguages),
+                  LanguagesDropdown(
+                      label: 'Select Languages', options: languages),
                   const SizedBox(
                     height: 12,
                   ),
@@ -119,10 +123,12 @@ class FilterDialogBox {
                     "Class Modality",
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  DropdownFilterMulti(
-                      label: "Select Class Modality",
-                      options: modalities,
-                      selectedValues: selectedClassModalities),
+                  // DropdownFilterMulti(
+                  //     label: "Select Class Modality",
+                  //     options: modalities,
+                  //     selectedValues: selectedClassModalities),
+                  ClassModalityDropdown(
+                      label: 'Select Class Modality', options: modalities),
                   const SizedBox(
                     height: 12,
                   ),
@@ -167,8 +173,7 @@ class FilterDialogBox {
                     "Type",
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  const TypeAndLevelDropdown(
-                    label: 'type',
+                  const TypeDropdown(
                     listOptions: types,
                   ),
                   const SizedBox(
@@ -178,8 +183,7 @@ class FilterDialogBox {
                     "Level",
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  const TypeAndLevelDropdown(
-                    label: 'level',
+                  const LevelDropdown(
                     listOptions: levels,
                   ),
                 ],

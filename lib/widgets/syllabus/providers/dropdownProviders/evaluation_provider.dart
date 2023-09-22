@@ -1,10 +1,11 @@
 import 'package:amplify_flutter/amplify_flutter.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 const Map<String, dynamic> kInitialEvaluations = {
-  'evaluation': 'None',
-  'start': 0,
-  'end': 0
+  'evaluation': 'Select Evaluation',
+  'start': 0.0,
+  'end': 100.0
 };
 
 class EvaluationNotifier extends StateNotifier<Map<String, dynamic>> {
@@ -37,6 +38,11 @@ class EvaluationNotifier extends StateNotifier<Map<String, dynamic>> {
 
     safePrint(state);
   }
+
+  RangeValues get getCurrentRangeValues =>
+      RangeValues(state['start'], state['end']);
+
+  String get getCurrentEvaluationValue => state['evaluation'];
 }
 
 final evaluationNotifier =

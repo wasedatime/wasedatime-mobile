@@ -21,6 +21,8 @@ class LanguageFilterNotifier extends StateNotifier<Map<String, bool>> {
           '3q': false,
         });
 
+  List<String> currentSelectedLanguages = [];
+
   void updateSelectedLanguages(List<String> languages) {
     // BUG: only updates when selecting and not when deselecting
     final Map<String, bool> updatedState = {};
@@ -41,6 +43,17 @@ class LanguageFilterNotifier extends StateNotifier<Map<String, bool>> {
 
     safePrint(state);
   }
+
+  // List<String> getSelectedLanguages() {
+  //   // So that the dropdown field shows which semesters are selected
+  //   // even if the user closes the dialog box
+  //   // The bug was that the state was maintained but the UI didnt
+  //   // reflect the state changes
+  //   currentSelectedLanguages =
+  //       state.keys.where((element) => state[element]!).toList();
+  //   safePrint(currentSelectedLanguages);
+  //   return currentSelectedLanguages;
+  // }
 }
 
 final languageFilterNotifier =

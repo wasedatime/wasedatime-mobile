@@ -2,8 +2,8 @@ import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 const Map<String, String> kInitialTypeAndLevel = {
-  'type': 'None',
-  'level': 'None'
+  'type': 'Select Type',
+  'level': 'Select Level'
 };
 
 class TypeAndLevelNotifier extends StateNotifier<Map<String, String>> {
@@ -30,6 +30,9 @@ class TypeAndLevelNotifier extends StateNotifier<Map<String, String>> {
 
     safePrint(state);
   }
+
+  String get currentType => state['type']!;
+  String get currentLevel => state['level']!;
 }
 
 final typeAndLevelNotifier =
